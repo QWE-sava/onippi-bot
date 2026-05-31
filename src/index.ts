@@ -37,6 +37,19 @@ async function validateLineSignature(request: Request, env: Env): Promise<boolea
   return actual === signature;
 }
 
+async function synthesizeAndStore(text: string, env: Env) {
+  const audio = await synthesizeSpeech(text);
+  const uploaded = await uploadAudio(
+    env.AUDIO_BUCKET,
+    env.R2_PUBLIC_BASE_URL,
+    audio.audio,
+    audio.contentType,
+    audio.durationMs
+  );
+
+  return { audio, uploaded };
+}
+
 async function handleWebhook(request: Request, env: Env): Promise<Response> {
   if (!(await validateLineSignature(request, env))) {
     return new Response("Invalid signature", { status: 401 });
@@ -68,7 +81,7 @@ async function handleWebhook(request: Request, env: Env): Promise<Response> {
 
       await saveMessage(env.D1_DB, userId, "assistant", responseText);
 
-      const audio = await synthesizeSpeech(responseText, env);
+      const audio = await synthesizeSpeech(responseText);
       logger.info("TTS", "SUCCESS", { durationMs: audio.durationMs });
 
       const uploaded = await uploadAudio(
@@ -96,6 +109,22 @@ async function handleWebhook(request: Request, env: Env): Promise<Response> {
   return new Response("OK");
 }
 
+async function handleTtsTest(env: Env): Promise<Response> {
+  const text = "おにっぴなのだ！";
+  const { audio, uploaded } = await synthesizeAndStore(text, env);
+
+  logger.info("TTS", "TEST SUCCESS", { durationMs: audio.durationMs, key: uploaded.key });
+
+  return json({
+    ok: true,
+    text,
+    key: uploaded.key,
+    url: uploaded.url,
+    contentType: uploaded.contentType,
+    durationMs: uploaded.durationMs
+  });
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -106,6 +135,10 @@ export default {
 
     if (url.pathname === "/webhook" && request.method === "POST") {
       return handleWebhook(request, env);
+    }
+
+    if (url.pathname === "/test-tts" && request.method === "GET") {
+      return handleTtsTest(env);
     }
 
     return new Response("Not Found", { status: 404 });

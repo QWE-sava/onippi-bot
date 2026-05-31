@@ -22,19 +22,21 @@ GROQ_API_KEY=
 GEMINI_API_KEY=
 DEEPSEEK_API_KEY=
 
-EDGE_TTS_API_URL=
-EDGE_TTS_VOICE=ja-JP-NanamiNeural
 R2_PUBLIC_BASE_URL=
 ```
 
-## Edge-TTS の戻り値
+## TTS
 
-`EDGE_TTS_API_URL` は次のどちらかで返せる実装を想定しています。
+音声合成は Worker 内で直接生成します。  
+API キーは不要です。
 
-- `audio/mpeg` などの音声バイナリ
-- `application/json` で `audioBase64` を返す形式
+## 検証用ルート
 
-JSON の場合は、`contentType` と `durationMs` を一緒に返せます。
+`GET /test-tts`
+
+- 固定文言 `おにっぴなのだ！` を音声化
+- R2 に保存
+- 保存先 URL を JSON で返す
 
 ## D1
 

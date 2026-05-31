@@ -12,8 +12,6 @@ binding = "AUDIO_BUCKET"
 bucket_name = "onippi-audio"
 
 [vars]
-EDGE_TTS_API_URL = "https://example.com/edge-tts"
-EDGE_TTS_VOICE = "ja-JP-NanamiNeural"
 R2_PUBLIC_BASE_URL = "https://audio.example.com"
 GLM_MODEL = "glm-4.7-flash"
 GROQ_MODEL = "llama-3.1-8b-instant"

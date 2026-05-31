@@ -31,8 +31,6 @@ export interface Env {
   GEMINI_API_KEY?: string;
   DEEPSEEK_API_KEY?: string;
 
-  EDGE_TTS_API_URL: string;
-  EDGE_TTS_VOICE?: string;
   R2_PUBLIC_BASE_URL: string;
 
   GLM_MODEL?: string;
