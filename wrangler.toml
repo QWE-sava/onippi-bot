@@ -1,11 +1,11 @@
-name = "onippi-worker"
+name = "onippi-bot"
 main = "src/index.ts"
 compatibility_date = "2026-05-31"
 
 [[d1_databases]]
 binding = "D1_DB"
 database_name = "onippi-db"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "8b56151c-c0b7-48c4-b952-66feaa8aff7b"
 
 [[r2_buckets]]
 binding = "AUDIO_BUCKET"
