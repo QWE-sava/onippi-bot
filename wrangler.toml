@@ -1,0 +1,21 @@
+name = "onippi-worker"
+main = "src/index.ts"
+compatibility_date = "2026-05-31"
+
+[[d1_databases]]
+binding = "D1_DB"
+database_name = "onippi-db"
+database_id = "00000000-0000-0000-0000-000000000000"
+
+[[r2_buckets]]
+binding = "AUDIO_BUCKET"
+bucket_name = "onippi-audio"
+
+[vars]
+EDGE_TTS_API_URL = "https://example.com/edge-tts"
+EDGE_TTS_VOICE = "ja-JP-NanamiNeural"
+R2_PUBLIC_BASE_URL = "https://audio.example.com"
+GLM_MODEL = "glm-4.7-flash"
+GROQ_MODEL = "llama-3.1-8b-instant"
+GEMINI_MODEL = "gemini-2.0-flash"
+DEEPSEEK_MODEL = "deepseek-chat"
